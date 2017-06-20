@@ -3,7 +3,7 @@
 Testing pytfmpval functions.
 """
 
-import pytfmpval as tfmp
+import pytfmpval as tfm
 from math import ceil
 
 
@@ -26,7 +26,7 @@ def create_matrix(matrix_file, bg=[0.25, 0.25, 0.25, 0.25], mat_type="pfm", log_
 
     a, c, g, t = bg[0], bg[1], bg[2], bg[3]
 
-    m = tfmp.Matrix(a, c, g, t)
+    m = tfm.Matrix(a, c, g, t)
     m.readJasparMatrix(matrix_file)
 
     if mat_type == "pfm":
@@ -57,7 +57,7 @@ def read_matrix(matrix, bg=[0.25, 0.25, 0.25, 0.25], mat_type="pfm", log_type="n
 
     a, c, g, t = bg[0], bg[1], bg[2], bg[3]
 
-    m = tfmp.Matrix(a, c, g, t)
+    m = tfm.Matrix(a, c, g, t)
     m.readMatrix(matrix)
 
     if mat_type == "pfm":
@@ -88,8 +88,8 @@ def score2pval(matrix, req_score):
     max_granularity = 1e-10
     decrgr = 10  # Factor to increase granularity by after each iteration.
 
-    pv = tfmp.doublep()
-    ppv = tfmp.doublep()
+    pv = tfm.doublep()
+    ppv = tfm.doublep()
 
     while granularity > max_granularity:
         matrix.computesIntegerMatrix(granularity)
@@ -127,8 +127,8 @@ def pval2score(matrix, pval):
     max_granularity = 1e-10
     decrgr = 10  # Factor to increase granularity by after each iteration.
 
-    pv = tfmp.doublep()  # Initialize as a c++ double.
-    ppv = tfmp.doublep()
+    pv = tfm.doublep()  # Initialize as a c++ double.
+    ppv = tfm.doublep()
     matrix.computesIntegerMatrix(init_granularity)
     max_s = matrix.maxScore + ceil(matrix.errorMax + 0.5)
     min_s = matrix.minScore
