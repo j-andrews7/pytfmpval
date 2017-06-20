@@ -9,7 +9,7 @@ pytfmpval
 
 This Python package serves as a wrapper for the incredibly useful `TFM-Pvalue C++ program <http://bioinfo.lifl.fr/tfm-pvalue/tfm-pvalue.php>`_. It allows users to determine score thresholds for a given transcription factor position frequency matrix associated with a specific p-value. Naturally, it can also perform the reverse, quickly calculating an accurate p-value from a score for a given motif matrix.
 
-pytfmpval allows this functionality to be easily utilized within a Python script, module, or package.
+``pytfmpval`` allows this functionality to be easily utilized within a Python script, module, or package.
 
 See full documentation and use examples at 
 
@@ -39,9 +39,9 @@ Any and all contributions are welcome. Bug reporting via the `Issue Tracker <git
 Reference
 --------------
 
-Efficient and accurate P-value computation for Position Weight Matrices
-H. Touzet and J.S. Varré
-*Algorithms for Molecular Biology 2007, 2:15*
+| Efficient and accurate P-value computation for Position Weight Matrices
+| H. Touzet and J.S. Varré
+| *Algorithms for Molecular Biology 2007, 2:15*
 
 License
 -----------
