@@ -8,16 +8,31 @@ from distutils.core import setup, Extension
 
 
 pytfmpval_module = Extension('_pytfmpval',
-                             sources=['src/Matrix.cpp', 'pytfmpval_wrap.cxx'],
+                             sources=['src/Matrix.cpp', 'pytfmpval/pytfmpval_wrap.cxx'],
                              swig_opts=['-c++'],
                              language='c++'
                              )
 
 setup(name='pytfmpval',
-      version='0.1',
+      version='0.0.4',
       author="Jared Andrews",
       author_email='jared.andrews07@gmail.com',
-      description="""Python binding for the TFMPvalue program.""",
+      url='https://github.com/j-andrews7/pytfmpval',
+      description="""Python bindings for the TFM-Pvalue program.""",
+      license='GPL-3.0',
+      keywords='bioinformatics tfmpvalue motifs transcription factor genomics science',
       ext_modules=[pytfmpval_module],
-      py_modules=["pytfmpval"]
+      py_modules=["pytfmpval"],
+      classifiers=['Development Status :: 4 - Beta',
+                   'Intended Audience :: Science/Research',
+                   'Intended Audience :: Developers',
+                   'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+                   'Programming Language :: Python :: 3.3',
+                   'Programming Language :: Python :: 3.4',
+                   'Programming Language :: Python :: 3.5',
+                   'Programming Language :: Python :: 3.6',
+                   'Programming Language :: Python :: 3 :: Only',
+                   'Topic :: Scientific/Engineering :: Bio-Informatics',
+                   'Topic :: Scientific/Engineering :: Mathematics',
+                   'Topic :: Software Development :: Libraries :: Python Modules']
       )

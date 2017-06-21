@@ -3,7 +3,7 @@
 Testing pytfmpval functions.
 """
 
-import pytfmpval as tfm
+from . import pytfmpval as tfm
 from math import ceil
 
 
