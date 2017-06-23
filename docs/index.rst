@@ -7,12 +7,15 @@ pytfmpval
 .. image:: https://badge.fury.io/py/pytfmpval.svg?style=flat
     :target: http://badge.fury.io/py/pytfmpval
 
+.. image:: https://readthedocs.org/projects/pytfmpval/badge/?version=latest
+    :target: http://pytfmpval.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 This Python package serves as a wrapper for the incredibly useful `TFM-Pvalue C++ program <http://bioinfo.lifl.fr/tfm-pvalue/tfm-pvalue.php>`_. It allows users to determine score thresholds for a given transcription factor position frequency matrix associated with a specific p-value. Naturally, it can also perform the reverse, quickly calculating an accurate p-value from a score for a given motif matrix.
 
 ``pytfmpval`` allows this functionality to be easily utilized within a Python script, module, or package.
 
-See full documentation and use examples at 
-
+See full documentation and use examples `here <http://pytfmpval.readthedocs.io/en/latest/>_`.
 
 Installation
 ---------------
