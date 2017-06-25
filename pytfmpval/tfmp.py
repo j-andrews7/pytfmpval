@@ -7,17 +7,25 @@ from . import pytfmpval as tfm
 from math import ceil
 
 
-def create_matrix(matrix_file, bg=[0.25, 0.25, 0.25, 0.25], mat_type="pfm", log_type="nat"):
+def create_matrix(matrix_file, bg=[0.25, 0.25, 0.25, 0.25], mat_type="counts", log_type="nat"):
     """
     From a JASPAR formatted matrix file, create a Matrix object.
 
     This function also converts it to a log-odds (position weight) matrix if necessary.
 
     args:
-        matrix_file (str):
+        matrix_file (str, required):
             Name of file containing matrix.
         bg (list of floats):
             Background nucleotide frequencies for [A, C, G, T].
+        mat_type (str):
+            Type of motif matrix provided. Options are: "counts", "pfm", "pwm".
+            "counts" is for raw count matrices for each base at each position.
+            "pfm" is for position frequency matrices.
+            "pwm" is for position weight matrices (also referred to as position-specific scoring matrices.)
+        log_type (str):
+            Base to use for log. Default is to use the natural log. Any other value for this will
+            use log2. This will affect the scores and p-values.
 
     returns:
         m (pytfmpval Matrix):
@@ -29,26 +37,38 @@ def create_matrix(matrix_file, bg=[0.25, 0.25, 0.25, 0.25], mat_type="pfm", log_
     m = tfm.Matrix(a, c, g, t)
     m.readJasparMatrix(matrix_file)
 
-    if mat_type == "pfm":
-        if log_type == "nat":
+    if mat_type.upper == "COUNTS":
+        if log_type.upper == "NAT":
             m.toLogOddRatio()
-        else:
+        elif log_type.upper == "LOG2":
             m.toLog2OddRatio()
+        else:
+            print("Improper log type argument, using natural log.")
+            m.toLogOddRatio()
 
     return m
 
 
-def read_matrix(matrix, bg=[0.25, 0.25, 0.25, 0.25], mat_type="pfm", log_type="nat"):
+def read_matrix(matrix, bg=[0.25, 0.25, 0.25, 0.25], mat_type="counts", log_type="nat"):
     """
-    From a JASPAR formatted matrix file, create a Matrix object.
+    From a string of space-delimited counts create a Matrix object.
 
+    Break the string into 4 rows corresponding to A, C, G, and T.
     This function also converts it to a log-odds (position weight) matrix if necessary.
 
     args:
         matrix_file (str):
-            Name of file containing matrix.
+            White-space delimited string of row-concatenated motif matrix.
         bg (list of floats):
             Background nucleotide frequencies for [A, C, G, T].
+        mat_type (str):
+            Type of motif matrix provided. Options are: "counts", "pfm", "pwm".
+            "counts" is for raw count matrices for each base at each position.
+            "pfm" is for position frequency matrices.
+            "pwm" is for position weight matrices (also referred to as position-specific scoring matrices.)
+        log_type (str):
+            Base to use for log. Default is to use the natural log. Any other value for this will
+            use log2. This will affect the scores and p-values.
 
     returns:
         m (pytfmpval Matrix):
@@ -60,11 +80,14 @@ def read_matrix(matrix, bg=[0.25, 0.25, 0.25, 0.25], mat_type="pfm", log_type="n
     m = tfm.Matrix(a, c, g, t)
     m.readMatrix(matrix)
 
-    if mat_type == "pfm":
-        if log_type == "nat":
+    if mat_type.upper == "COUNTS":
+        if log_type.upper == "NAT":
             m.toLogOddRatio()
-        else:
+        elif log_type.upper == "LOG2":
             m.toLog2OddRatio()
+        else:
+            print("Improper log type argument, using natural log.")
+            m.toLogOddRatio()
 
     return m
 
