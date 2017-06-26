@@ -145,8 +145,8 @@ def pval2score(matrix, pval):
     pv = tfm.doublep()  # Initialize as a c++ double.
     ppv = tfm.doublep()
     matrix.computesIntegerMatrix(init_granularity)
-    max_s = matrix.maxScore + ceil(matrix.errorMax + 0.5)
-    min_s = matrix.minScore
+    max_s = int(matrix.maxScore + ceil(matrix.errorMax + 0.5))
+    min_s = int(matrix.minScore)
     granularity = init_granularity
 
     while granularity > max_granularity:
@@ -154,8 +154,8 @@ def pval2score(matrix, pval):
 
         score = matrix.lookForScore(min_s, max_s, pval, pv, ppv)
 
-        min_s = (score - ceil(matrix.errorMax + 0.5)) * decrgr
-        max_s = (score + ceil(matrix.errorMax + 0.5)) * decrgr
+        min_s = int((score - ceil(matrix.errorMax + 0.5)) * decrgr)
+        max_s = int((score + ceil(matrix.errorMax + 0.5)) * decrgr)
 
         if ppv.value() == pv.value():
             break
