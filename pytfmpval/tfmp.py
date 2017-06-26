@@ -3,7 +3,7 @@
 Testing pytfmpval functions.
 """
 
-from . import pytfmpval as tfm
+import pytfmpval.pytfmpval as tfm
 from math import ceil
 
 
@@ -66,21 +66,27 @@ def read_matrix(matrix, bg=[0.25, 0.25, 0.25, 0.25], mat_type="counts", log_type
         m (pytfmpval Matrix): Matrix in pwm format.
     """
 
-    a, c, g, t = bg[0], bg[1], bg[2], bg[3]
+    try:
+        a, c, g, t = bg[0], bg[1], bg[2], bg[3]
+        if (len(matrix.split()) % 4) != 0:
+            raise ValueError("Uneven rows in motif matrix. Ensure rows of equal length in input.")
 
-    m = tfm.Matrix(a, c, g, t)
-    m.readMatrix(matrix)
+        m = tfm.Matrix(a, c, g, t)
+        m.readMatrix(matrix)
 
-    if mat_type.upper == "COUNTS":
-        if log_type.upper == "NAT":
-            m.toLogOddRatio()
-        elif log_type.upper == "LOG2":
-            m.toLog2OddRatio()
-        else:
-            print("Improper log type argument, using natural log.")
-            m.toLogOddRatio()
+        if mat_type.upper == "COUNTS":
+            if log_type.upper == "NAT":
+                m.toLogOddRatio()
+            elif log_type.upper == "LOG2":
+                m.toLog2OddRatio()
+            else:
+                print("Improper log type argument, using natural log.")
+                m.toLogOddRatio()
 
-    return m
+        return m
+
+    except ValueError as error:
+        print(repr(error))
 
 
 def score2pval(matrix, req_score):
