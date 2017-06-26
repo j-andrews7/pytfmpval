@@ -66,7 +66,7 @@ Full tfmp Module Reference
 Contribute
 ---------------
 
-Any and all contributions are welcome. Bug reporting via the `Issue Tracker <github.com/j-andrews7/pytfmpval/issues>`_ is much appeciated. Here's how to contribute:
+Any and all contributions are welcome. Bug reporting via the `Issue Tracker <https://github.com/j-andrews7/pytfmpval/issues>`_ is much appeciated. Here's how to contribute:
 
 1. Fork the `pytfmpval repository <https://github.com/j-andrews7/pytfmpval>`_ on github (see `forking help <https://help.github.com/articles/fork-a-repo/>`_).
 
