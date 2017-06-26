@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>tfmp &mdash; pytfmpval 0.0.5 documentation</title>
+    <title>tfmp &mdash; pytfmpval 0.0.8 documentation</title>
     
     <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.0.5',
+        VERSION:     '0.0.8',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -23,7 +23,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="pytfmpval 0.0.5 documentation" href="../index.html" />
+    <link rel="top" title="pytfmpval 0.0.8 documentation" href="../index.html" />
     <link rel="up" title="Module code" href="index.html" /> 
   </head>
   <body role="document">
@@ -36,7 +36,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pytfmpval 0.0.5 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pytfmpval 0.0.8 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -52,11 +52,12 @@
 <span class="sd">Testing pytfmpval functions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">absolute_import</span><span class="p">,</span> <span class="n">division</span><span class="p">,</span> <span class="n">print_function</span><span class="p">,</span> <span class="n">unicode_literals</span>
 <span class="kn">import</span> <span class="nn">pytfmpval.pytfmpval</span> <span class="kn">as</span> <span class="nn">tfm</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
 
 
-<div class="viewcode-block" id="create_matrix"><a class="viewcode-back" href="../tfmp.html#tfmp.create_matrix">[docs]</a><span class="k">def</span> <span class="nf">create_matrix</span><span class="p">(</span><span class="n">matrix_file</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span> <span class="n">mat_type</span><span class="o">=</span><span class="s2">&quot;counts&quot;</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;nat&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="create_matrix"><a class="viewcode-back" href="../index.html#tfmp.create_matrix">[docs]</a><span class="k">def</span> <span class="nf">create_matrix</span><span class="p">(</span><span class="n">matrix_file</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span> <span class="n">mat_type</span><span class="o">=</span><span class="s2">&quot;counts&quot;</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;nat&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    From a JASPAR formatted matrix file, create a Matrix object.</span>
 
@@ -94,7 +95,7 @@
     <span class="k">return</span> <span class="n">m</span></div>
 
 
-<div class="viewcode-block" id="read_matrix"><a class="viewcode-back" href="../tfmp.html#tfmp.read_matrix">[docs]</a><span class="k">def</span> <span class="nf">read_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span> <span class="n">mat_type</span><span class="o">=</span><span class="s2">&quot;counts&quot;</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;nat&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="read_matrix"><a class="viewcode-back" href="../index.html#tfmp.read_matrix">[docs]</a><span class="k">def</span> <span class="nf">read_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span> <span class="n">mat_type</span><span class="o">=</span><span class="s2">&quot;counts&quot;</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;nat&quot;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    From a string of space-delimited counts create a Matrix object.</span>
 
@@ -138,7 +139,7 @@
         <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">error</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="score2pval"><a class="viewcode-back" href="../tfmp.html#tfmp.score2pval">[docs]</a><span class="k">def</span> <span class="nf">score2pval</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">req_score</span><span class="p">):</span>
+<div class="viewcode-block" id="score2pval"><a class="viewcode-back" href="../index.html#tfmp.score2pval">[docs]</a><span class="k">def</span> <span class="nf">score2pval</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">req_score</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Determine the p-value for a given score for a specific motif PWM.</span>
 
@@ -174,7 +175,7 @@
     <span class="k">return</span> <span class="n">ppv</span><span class="o">.</span><span class="n">value</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="pval2score"><a class="viewcode-back" href="../tfmp.html#tfmp.pval2score">[docs]</a><span class="k">def</span> <span class="nf">pval2score</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">pval</span><span class="p">):</span>
+<div class="viewcode-block" id="pval2score"><a class="viewcode-back" href="../index.html#tfmp.pval2score">[docs]</a><span class="k">def</span> <span class="nf">pval2score</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">pval</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Determine the score for a given p-value for a specific motif PWM.</span>
 
@@ -245,7 +246,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">pytfmpval 0.0.5 documentation</a> &raquo;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pytfmpval 0.0.8 documentation</a> &raquo;</li>
           <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>

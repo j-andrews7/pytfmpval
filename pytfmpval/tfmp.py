@@ -3,9 +3,9 @@
 Testing pytfmpval functions.
 """
 
+from __future__ import absolute_import, division, print_function, unicode_literals
 import pytfmpval.pytfmpval as tfm
 from math import ceil
-from __future__ import absolute_import, division, print_function, unicode_literals
 
 
 def create_matrix(matrix_file, bg=[0.25, 0.25, 0.25, 0.25], mat_type="counts", log_type="nat"):
