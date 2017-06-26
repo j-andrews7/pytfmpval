@@ -47,14 +47,14 @@ A Simple Example
 >>> tfmp.pval2score(m, 0.00001)
 8.773708000000001
 
-This could also be done by creating a string for the matrix by concatenating the rows (or columns) and using the ``read_matrix()`` function. This method is usually easier, as allows the user to parse the motif file as necessary to ensure a proper input. It's also easier to use in a high-throughput manner.
+This could also be done by creating a string for the matrix by concatenating the rows (or columns) and using the ``read_matrix()`` function. This method is usually easier, as allows the user to parse the motif file as necessary to ensure a proper input. It's also more fitting for high-throughput.
 
 >>> from pytfmpval import tfmp
 >>> mat = (" 3  7  9  3 11 11 11  3  4  3  8  8  9  9 11  2" 
-           " 5  0  1  6  0  0  0  3  1  4  5  1  0  5  0  7"  
-	   " 4  3  1  4  3  2  2  2  8  6  1  4  2  0  3  0" 
-	   " 2  4  3  1  0  1  1  6  1  1  0  1  3  0  0  5"
-	)
+...           " 5  0  1  6  0  0  0  3  1  4  5  1  0  5  0  7"  
+...	   " 4  3  1  4  3  2  2  2  8  6  1  4  2  0  3  0" 
+...	   " 2  4  3  1  0  1  1  6  1  1  0  1  3  0  0  5"
+...	   )
 >>> m = tfmp.read_matrix(mat)
 >>> tfmp.pval2score(m, 0.00001)
 8.773708000000001
