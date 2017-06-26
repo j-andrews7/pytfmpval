@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tfmp &mdash; pytfmpval 0.0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="pytfmpval 0.0.5 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pytfmpval 0.0.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for tfmp</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Testing pytfmpval functions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pytfmpval.pytfmpval</span> <span class="kn">as</span> <span class="nn">tfm</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
+
+
+<div class="viewcode-block" id="create_matrix"><a class="viewcode-back" href="../tfmp.html#tfmp.create_matrix">[docs]</a><span class="k">def</span> <span class="nf">create_matrix</span><span class="p">(</span><span class="n">matrix_file</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span> <span class="n">mat_type</span><span class="o">=</span><span class="s2">&quot;counts&quot;</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;nat&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    From a JASPAR formatted matrix file, create a Matrix object.</span>
+
+<span class="sd">    This function also converts it to a log-odds (position weight) matrix if necessary.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        matrix_file (str): White-space delimited string of row-concatenated motif matrix.</span>
+<span class="sd">        bg (list of floats): Background nucleotide frequencies for [A, C, G, T].</span>
+<span class="sd">        mat_type (str): Type of motif matrix provided. Options are: &quot;counts&quot;, &quot;pfm&quot;, &quot;pwm&quot;.</span>
+<span class="sd">            &quot;counts&quot; is for raw count matrices for each base at each position.</span>
+<span class="sd">            &quot;pfm&quot; is for position frequency matrices (frequencies already calculated.</span>
+<span class="sd">            &quot;pwm&quot; is for position weight matrices (also referred to as position-specific scoring matrices.)</span>
+<span class="sd">        log_type (str): Base to use for log. Default is to use the natural log. &quot;log2&quot; is the other option.</span>
+<span class="sd">            This will affect the scores and p-values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        m (pytfmpval Matrix):</span>
+<span class="sd">            Matrix in pwm format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">bg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">bg</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">tfm</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">readJasparMatrix</span><span class="p">(</span><span class="n">matrix_file</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mat_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;COUNTS&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">log_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;NAT&quot;</span><span class="p">:</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">toLogOddRatio</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">log_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;LOG2&quot;</span><span class="p">:</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">toLog2OddRatio</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Improper log type argument, using natural log.&quot;</span><span class="p">)</span>
+            <span class="n">m</span><span class="o">.</span><span class="n">toLogOddRatio</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="read_matrix"><a class="viewcode-back" href="../tfmp.html#tfmp.read_matrix">[docs]</a><span class="k">def</span> <span class="nf">read_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">],</span> <span class="n">mat_type</span><span class="o">=</span><span class="s2">&quot;counts&quot;</span><span class="p">,</span> <span class="n">log_type</span><span class="o">=</span><span class="s2">&quot;nat&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    From a string of space-delimited counts create a Matrix object.</span>
+
+<span class="sd">    Break the string into 4 rows corresponding to A, C, G, and T.</span>
+<span class="sd">    This function also converts it to a log-odds (position weight) matrix if necessary.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        matrix_file (str): White-space delimited string of row-concatenated motif matrix.</span>
+<span class="sd">        bg (list of floats): Background nucleotide frequencies for [A, C, G, T].</span>
+<span class="sd">        mat_type (str): Type of motif matrix provided. Options are: &quot;counts&quot;, &quot;pfm&quot;, &quot;pwm&quot;.</span>
+<span class="sd">            &quot;counts&quot; is for raw count matrices for each base at each position.</span>
+<span class="sd">            &quot;pfm&quot; is for position frequency matrices (frequencies already calculated).</span>
+<span class="sd">            &quot;pwm&quot; is for position weight matrices (also referred to as position-specific scoring matrices.)</span>
+<span class="sd">        log_type (str): Base to use for log. Default is to use the natural log. &quot;log2&quot; is the other option.</span>
+<span class="sd">            This will affect the scores and p-values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        m (pytfmpval Matrix): Matrix in pwm format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">bg</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bg</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">bg</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">bg</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">split</span><span class="p">())</span> <span class="o">%</span> <span class="mi">4</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Uneven rows in motif matrix. Ensure rows of equal length in input.&quot;</span><span class="p">)</span>
+
+        <span class="n">m</span> <span class="o">=</span> <span class="n">tfm</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">readMatrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mat_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;COUNTS&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">log_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;NAT&quot;</span><span class="p">:</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">toLogOddRatio</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">log_type</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;LOG2&quot;</span><span class="p">:</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">toLog2OddRatio</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Improper log type argument, using natural log.&quot;</span><span class="p">)</span>
+                <span class="n">m</span><span class="o">.</span><span class="n">toLogOddRatio</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">m</span>
+
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">error</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="score2pval"><a class="viewcode-back" href="../tfmp.html#tfmp.score2pval">[docs]</a><span class="k">def</span> <span class="nf">score2pval</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">req_score</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine the p-value for a given score for a specific motif PWM.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        matrix (pytfmpval Matrix): Matrix in pwm format.</span>
+<span class="sd">        req_score (float): Requested score for which to determine the p-value.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ppv (float): The calculated p-value corresponding to the score.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">granularity</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">max_granularity</span> <span class="o">=</span> <span class="mf">1e-10</span>
+    <span class="n">decrgr</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># Factor to increase granularity by after each iteration.</span>
+
+    <span class="n">pv</span> <span class="o">=</span> <span class="n">tfm</span><span class="o">.</span><span class="n">doublep</span><span class="p">()</span>
+    <span class="n">ppv</span> <span class="o">=</span> <span class="n">tfm</span><span class="o">.</span><span class="n">doublep</span><span class="p">()</span>
+
+    <span class="k">while</span> <span class="n">granularity</span> <span class="o">&gt;</span> <span class="n">max_granularity</span><span class="p">:</span>
+        <span class="n">matrix</span><span class="o">.</span><span class="n">computesIntegerMatrix</span><span class="p">(</span><span class="n">granularity</span><span class="p">)</span>
+        <span class="n">max_s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">req_score</span> <span class="o">*</span> <span class="n">matrix</span><span class="o">.</span><span class="n">granularity</span> <span class="o">+</span> <span class="n">matrix</span><span class="o">.</span><span class="n">offset</span> <span class="o">+</span> <span class="n">matrix</span><span class="o">.</span><span class="n">errorMax</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">min_s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">req_score</span> <span class="o">*</span> <span class="n">matrix</span><span class="o">.</span><span class="n">granularity</span> <span class="o">+</span> <span class="n">matrix</span><span class="o">.</span><span class="n">offset</span> <span class="o">-</span> <span class="n">matrix</span><span class="o">.</span><span class="n">errorMax</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">score</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">req_score</span> <span class="o">*</span> <span class="n">matrix</span><span class="o">.</span><span class="n">granularity</span> <span class="o">+</span> <span class="n">matrix</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span>
+
+        <span class="n">matrix</span><span class="o">.</span><span class="n">lookForPvalue</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">min_s</span><span class="p">,</span> <span class="n">max_s</span><span class="p">,</span> <span class="n">ppv</span><span class="p">,</span> <span class="n">pv</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">ppv</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">==</span> <span class="n">pv</span><span class="o">.</span><span class="n">value</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">ppv</span><span class="o">.</span><span class="n">value</span><span class="p">()</span>
+
+        <span class="n">granularity</span> <span class="o">=</span> <span class="n">granularity</span> <span class="o">/</span> <span class="n">decrgr</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Max granularity exceeded. Returning closest approximation.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ppv</span><span class="o">.</span><span class="n">value</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="pval2score"><a class="viewcode-back" href="../tfmp.html#tfmp.pval2score">[docs]</a><span class="k">def</span> <span class="nf">pval2score</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">pval</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determine the score for a given p-value for a specific motif PWM.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        matrix (pytfmpval Matrix): Matrix in pwm format.</span>
+<span class="sd">        pval (float): p-value for which to determine the score.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        score (float): The calculated score corresponding to the p-value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">init_granularity</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="n">max_granularity</span> <span class="o">=</span> <span class="mf">1e-10</span>
+    <span class="n">decrgr</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># Factor to increase granularity by after each iteration.</span>
+
+    <span class="n">pv</span> <span class="o">=</span> <span class="n">tfm</span><span class="o">.</span><span class="n">doublep</span><span class="p">()</span>  <span class="c1"># Initialize as a c++ double.</span>
+    <span class="n">ppv</span> <span class="o">=</span> <span class="n">tfm</span><span class="o">.</span><span class="n">doublep</span><span class="p">()</span>
+    <span class="n">matrix</span><span class="o">.</span><span class="n">computesIntegerMatrix</span><span class="p">(</span><span class="n">init_granularity</span><span class="p">)</span>
+    <span class="n">max_s</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">maxScore</span> <span class="o">+</span> <span class="n">ceil</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">errorMax</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">min_s</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">minScore</span>
+    <span class="n">granularity</span> <span class="o">=</span> <span class="n">init_granularity</span>
+
+    <span class="k">while</span> <span class="n">granularity</span> <span class="o">&gt;</span> <span class="n">max_granularity</span><span class="p">:</span>
+        <span class="n">matrix</span><span class="o">.</span><span class="n">computesIntegerMatrix</span><span class="p">(</span><span class="n">granularity</span><span class="p">)</span>
+
+        <span class="n">score</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">lookForScore</span><span class="p">(</span><span class="n">min_s</span><span class="p">,</span> <span class="n">max_s</span><span class="p">,</span> <span class="n">pval</span><span class="p">,</span> <span class="n">pv</span><span class="p">,</span> <span class="n">ppv</span><span class="p">)</span>
+
+        <span class="n">min_s</span> <span class="o">=</span> <span class="p">(</span><span class="n">score</span> <span class="o">-</span> <span class="n">ceil</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">errorMax</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">))</span> <span class="o">*</span> <span class="n">decrgr</span>
+        <span class="n">max_s</span> <span class="o">=</span> <span class="p">(</span><span class="n">score</span> <span class="o">+</span> <span class="n">ceil</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">errorMax</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">))</span> <span class="o">*</span> <span class="n">decrgr</span>
+
+        <span class="k">if</span> <span class="n">ppv</span><span class="o">.</span><span class="n">value</span><span class="p">()</span> <span class="o">==</span> <span class="n">pv</span><span class="o">.</span><span class="n">value</span><span class="p">():</span>
+            <span class="k">break</span>
+
+        <span class="n">granularity</span> <span class="o">=</span> <span class="n">granularity</span> <span class="o">/</span> <span class="n">decrgr</span>
+
+    <span class="k">if</span> <span class="n">granularity</span> <span class="o">&lt;=</span> <span class="n">max_granularity</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Max granularity exceeded. Returning closest score approximation.&quot;</span><span class="p">)</span>
+
+    <span class="n">final_score</span> <span class="o">=</span> <span class="p">(</span><span class="n">score</span> <span class="o">-</span> <span class="n">matrix</span><span class="o">.</span><span class="n">offset</span><span class="p">)</span> <span class="o">/</span> <span class="n">matrix</span><span class="o">.</span><span class="n">granularity</span>
+    <span class="k">return</span> <span class="n">final_score</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">pytfmpval 0.0.5 documentation</a> &raquo;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2017, Jared Andrews.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.4.
+    </div>
+  </body>
+</html>

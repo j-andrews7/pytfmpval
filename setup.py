@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-setup.py file for pyTFMPval
+setup.py file for pytfmpval
 """
 
 from distutils.core import setup, Extension
@@ -14,7 +14,7 @@ pytfmpval_module = Extension('_pytfmpval',
                              )
 
 setup(name='pytfmpval',
-      version='0.0.4',
+      version='0.0.5',
       author="Jared Andrews",
       author_email='jared.andrews07@gmail.com',
       url='https://github.com/j-andrews7/pytfmpval',

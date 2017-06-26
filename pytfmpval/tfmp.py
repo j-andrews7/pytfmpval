@@ -33,10 +33,10 @@ def create_matrix(matrix_file, bg=[0.25, 0.25, 0.25, 0.25], mat_type="counts", l
     m = tfm.Matrix(a, c, g, t)
     m.readJasparMatrix(matrix_file)
 
-    if mat_type.upper == "COUNTS":
-        if log_type.upper == "NAT":
+    if mat_type.upper() == "COUNTS":
+        if log_type.upper() == "NAT":
             m.toLogOddRatio()
-        elif log_type.upper == "LOG2":
+        elif log_type.upper() == "LOG2":
             m.toLog2OddRatio()
         else:
             print("Improper log type argument, using natural log.")
@@ -74,10 +74,10 @@ def read_matrix(matrix, bg=[0.25, 0.25, 0.25, 0.25], mat_type="counts", log_type
         m = tfm.Matrix(a, c, g, t)
         m.readMatrix(matrix)
 
-        if mat_type.upper == "COUNTS":
-            if log_type.upper == "NAT":
+        if mat_type.upper() == "COUNTS":
+            if log_type.upper() == "NAT":
                 m.toLogOddRatio()
-            elif log_type.upper == "LOG2":
+            elif log_type.upper() == "LOG2":
                 m.toLog2OddRatio()
             else:
                 print("Improper log type argument, using natural log.")
