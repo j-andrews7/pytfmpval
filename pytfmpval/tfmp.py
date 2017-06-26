@@ -13,21 +13,17 @@ def create_matrix(matrix_file, bg=[0.25, 0.25, 0.25, 0.25], mat_type="counts", l
 
     This function also converts it to a log-odds (position weight) matrix if necessary.
 
-    args:
-        matrix_file (str, required):
-            Name of file containing matrix.
-        bg (list of floats):
-            Background nucleotide frequencies for [A, C, G, T].
-        mat_type (str):
-            Type of motif matrix provided. Options are: "counts", "pfm", "pwm".
+    Args:
+        matrix_file (str): White-space delimited string of row-concatenated motif matrix.
+        bg (list of floats): Background nucleotide frequencies for [A, C, G, T].
+        mat_type (str): Type of motif matrix provided. Options are: "counts", "pfm", "pwm".
             "counts" is for raw count matrices for each base at each position.
-            "pfm" is for position frequency matrices.
+            "pfm" is for position frequency matrices (frequencies already calculated.
             "pwm" is for position weight matrices (also referred to as position-specific scoring matrices.)
-        log_type (str):
-            Base to use for log. Default is to use the natural log. Any other value for this will
-            use log2. This will affect the scores and p-values.
+        log_type (str): Base to use for log. Default is to use the natural log. "log2" is the other option.
+            This will affect the scores and p-values.
 
-    returns:
+    Returns:
         m (pytfmpval Matrix):
             Matrix in pwm format.
     """
@@ -56,23 +52,18 @@ def read_matrix(matrix, bg=[0.25, 0.25, 0.25, 0.25], mat_type="counts", log_type
     Break the string into 4 rows corresponding to A, C, G, and T.
     This function also converts it to a log-odds (position weight) matrix if necessary.
 
-    args:
-        matrix_file (str):
-            White-space delimited string of row-concatenated motif matrix.
-        bg (list of floats):
-            Background nucleotide frequencies for [A, C, G, T].
-        mat_type (str):
-            Type of motif matrix provided. Options are: "counts", "pfm", "pwm".
+    Args:
+        matrix_file (str): White-space delimited string of row-concatenated motif matrix.
+        bg (list of floats): Background nucleotide frequencies for [A, C, G, T].
+        mat_type (str): Type of motif matrix provided. Options are: "counts", "pfm", "pwm".
             "counts" is for raw count matrices for each base at each position.
-            "pfm" is for position frequency matrices.
+            "pfm" is for position frequency matrices (frequencies already calculated).
             "pwm" is for position weight matrices (also referred to as position-specific scoring matrices.)
-        log_type (str):
-            Base to use for log. Default is to use the natural log. Any other value for this will
-            use log2. This will affect the scores and p-values.
+        log_type (str): Base to use for log. Default is to use the natural log. "log2" is the other option.
+            This will affect the scores and p-values.
 
-    returns:
-        m (pytfmpval Matrix):
-            Matrix in pwm format.
+    Returns:
+        m (pytfmpval Matrix): Matrix in pwm format.
     """
 
     a, c, g, t = bg[0], bg[1], bg[2], bg[3]
@@ -96,15 +87,12 @@ def score2pval(matrix, req_score):
     """
     Determine the p-value for a given score for a specific motif PWM.
 
-    args:
-        matrix (pytfmpval Matrix):
-            Matrix in pwm format.
-        req_score (float):
-            Requested score for which to determine the p-value.
+    Args:
+        matrix (pytfmpval Matrix): Matrix in pwm format.
+        req_score (float): Requested score for which to determine the p-value.
 
-    returns:
-        ppv (float):
-            The calculated p-value corresponding to the score.
+    Returns:
+        ppv (float): The calculated p-value corresponding to the score.
     """
 
     granularity = 0.1
@@ -135,15 +123,12 @@ def pval2score(matrix, pval):
     """
     Determine the score for a given p-value for a specific motif PWM.
 
-    args:
-        matrix (pytfmpval Matrix):
-            Matrix in pwm format.
-        pval (float):
-            p-value for which to determine the score.
+    Args:
+        matrix (pytfmpval Matrix): Matrix in pwm format.
+        pval (float): p-value for which to determine the score.
 
-    returns:
-        score (float):
-            The calculated score corresponding to the p-value.
+    Returns:
+        score (float): The calculated score corresponding to the p-value.
     """
 
     init_granularity = 0.1
