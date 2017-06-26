@@ -3125,7 +3125,7 @@ namespace swig {
 }
 
 
-#include "./src/Matrix.h"
+#include "../src/Matrix.h"
 #define SWIG_FILE_WITH_INIT
 
 
