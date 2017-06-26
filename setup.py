@@ -14,7 +14,7 @@ pytfmpval_module = Extension('_pytfmpval',
                              )
 
 setup(name='pytfmpval',
-      version='0.0.8',
+      version='0.0.9',
       author="Jared Andrews",
       author_email='jared.andrews07@gmail.com',
       url='https://github.com/j-andrews7/pytfmpval',
