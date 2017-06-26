@@ -1,7 +1,3 @@
-.. toctree::
-
-   tfmp module <tfmp>
-
 Overview
 ===========
 
@@ -61,6 +57,11 @@ This could also be done by creating a string for the matrix by concatenating the
 >>> tfmp.score2pval(m, 8.7737)
 9.992625564336777e-06
 
+Full tfmp Module Reference
+-----------------------------
+
+.. automodule:: tfmp
+   :members:
 
 Contribute
 ---------------
