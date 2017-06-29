@@ -1,6 +1,32 @@
 #!/usr/bin/env python
 """
-Testing pytfmpval functions.
+pytfmpval contains Python wrappers for the TFM-Pvalue program. It allows for
+accurate calculation of p-values associated with scores for a given motif PWM.
+Naturally, it can also be used to calculate the score corresponding to a given
+p-value for a transcription factor motif PWM.
+
+The original program can be downloaded at:
+http://bioinfo.lifl.fr/tfm-pvalue/tfm-pvalue.php
+
+Additionally, see this paper for how the p-values and thresholds are calculated:
+Efficient and accurate P-value computation for Position Weight Matrices
+H. Touzet and J.S. Varré
+Algorithms for Molecular Biology 2007, 2:15
+
+Copyright (C) 2017  Jared Andrews
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 from __future__ import absolute_import, division, print_function, unicode_literals
@@ -10,7 +36,7 @@ from math import ceil
 
 def create_matrix(matrix_file, bg=[0.25, 0.25, 0.25, 0.25], mat_type="counts", log_type="nat"):
     """
-    From a JASPAR formatted matrix file, create a Matrix object.
+    From a JASPAR formatted motif matrix count file, create a Matrix object.
 
     This function also converts it to a log-odds (position weight) matrix if necessary.
 
