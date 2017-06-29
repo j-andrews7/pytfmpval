@@ -10,7 +10,7 @@ http://bioinfo.lifl.fr/tfm-pvalue/tfm-pvalue.php
 
 Additionally, see this paper for how the p-values and thresholds are calculated:
 Efficient and accurate P-value computation for Position Weight Matrices
-H. Touzet and J.S. Varré
+H. Touzet and J.S. Varre
 Algorithms for Molecular Biology 2007, 2:15
 
 Copyright (C) 2017  Jared Andrews
