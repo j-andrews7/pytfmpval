@@ -60,10 +60,10 @@ This could also be done by creating a string for the matrix by concatenating the
 Full tfmp Module Reference
 -----------------------------
 
-.. autofunction:: create_matrix
-.. autofunction:: read_matrix
-.. autofunction:: score2pval
-.. autofunction:: pval2score
+.. autofunction:: tfmp.create_matrix
+.. autofunction:: tfmp.read_matrix
+.. autofunction:: tfmp.score2pval
+.. autofunction:: tfmp.pval2score
 
 Contribute
 ---------------
