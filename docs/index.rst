@@ -62,6 +62,7 @@ Full tfmp Module Reference
 
 .. automodule:: tfmp
    :members:
+   :exclude-members: tfmp
 
 Contribute
 ---------------
