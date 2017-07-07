@@ -100,6 +100,9 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
         matInt[k][i] = mattemp[k][i];
       }
     }
+
+    delete[] mattemp;
+    delete[] maxs;
   }
   
   // computes offsets
@@ -151,9 +154,6 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
     bestScore[i]  = bestScore[i+1]  - maxScoreColumn[i+1];
     worstScore[i] = worstScore[i+1] - minScoreColumn[i+1];
   }
-
-  delete[] mattemp;
-  delete[] maxs;
   
   
 }
