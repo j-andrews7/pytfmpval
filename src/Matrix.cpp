@@ -12,6 +12,7 @@
 //#define PRINTVERBOSE 
 //#define SHOWCERR
 //#define VERBOSE
+#define MEMORYCOUNT
 
 void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
   double minS = 0, maxS = 0;
@@ -126,6 +127,7 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
         matInt[k][i] = mattemp[k][i];
       }
     }
+    delete[] mattemp;
   }
   
   // computes offsets
@@ -429,7 +431,25 @@ long long Matrix::fastPvalue (Matrix *m, long long alpha) {
   
   
   delete[] maxm;
+  delete[] q;
   
   return P;
   
 }
+
+void Matrix::freeMatrix(Matrix m, int nrow){
+  // free the memory allocated, not typical way
+  for(int i=0; i<nrow; i++){
+    delete[] m.mat[i];
+    delete[] m.matInt[i];
+  }
+  delete[] m.matInt;
+  delete[] m.mat;
+  delete[] m.offsets;
+  delete[] m.minScoreColumn;
+  delete[] m.maxScoreColumn;
+  delete[] m.sum;
+  delete[] m.bestScore;
+  delete[] m.worstScore;
+}
+

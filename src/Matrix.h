@@ -253,6 +253,8 @@ public:
     f.close();
     
   }
+
+  void freeMatrix(Matrix m, int nrow);
   
 }; /* Matrix */
 
