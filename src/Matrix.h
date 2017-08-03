@@ -30,10 +30,6 @@
 
 using namespace std;
 
-//extern map<char,int> OPTIONS;
-
-//#define PRINTLOGRATIO
-
 class Matrix {
   
 private:
@@ -191,16 +187,6 @@ public:
     
     f.close();
     
-#ifdef PRINTVERBOSE
-    /*cout << "INITIAL MATRIX" << endl;    
-    for (int k = 0; k < 4; k++ ) {
-      for (int i = 0 ; i < length; i++) {
-        cout << mat[k][i] << "\t";
-      }
-      cout << endl;
-    }*/
-#endif
-    
   }
 
   void readMatrix (string matrix) {
@@ -254,8 +240,6 @@ public:
     
   }
 
-  void freeMatrix(Matrix m, int nrow);
-  
 }; /* Matrix */
 
 #endif

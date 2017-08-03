@@ -9,9 +9,7 @@
 
 #include "Matrix.h"
 
-//#define PRINTVERBOSE 
-//#define SHOWCERR
-//#define VERBOSE
+
 #define MEMORYCOUNT
 
 void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
@@ -101,6 +99,9 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
       }
     }
 
+    for (int k = 0; k < 4; k++) {        
+      delete[] mattemp[k];
+    }
     delete[] mattemp;
     delete[] maxs;
   }
@@ -123,15 +124,15 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
   // look for the minimum score of the matrix for each column
   minScoreColumn = new long long [length];
   maxScoreColumn = new long long [length];
-  sum            = new long long [length];
+  //sum            = new long long [length];
   minScore = 0;
   maxScore = 0;
   for (int i = 0; i < length; i++) {
     minScoreColumn[i] = matInt[0][i];
     maxScoreColumn[i] = matInt[0][i];
-    sum[i] = 0;
+    //sum[i] = 0;
     for (int k = 1; k < 4; k++ )  {
-      sum[i] = sum[i] + matInt[k][i];
+      //sum[i] = sum[i] + matInt[k][i];
       if (minScoreColumn[i] > matInt[k][i]) {
         minScoreColumn[i] = matInt[k][i];
       }
@@ -154,7 +155,6 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
     bestScore[i]  = bestScore[i+1]  - maxScoreColumn[i+1];
     worstScore[i] = worstScore[i+1] - minScoreColumn[i+1];
   }
-  
   
 }
 
@@ -197,8 +197,17 @@ void Matrix::lookForPvalue (long long requestedScore, long long min, long long m
   
   *pmax = nbocc[length][s];
   *pmin = iter->second;
-  
+
   delete[] nbocc;
+  delete[] minScoreColumn;
+  delete[] maxScoreColumn;
+  delete[] bestScore;
+  delete[] worstScore;
+  delete[] offsets;
+  for (int k = 0; k < 4; k++) {        
+      delete[] matInt[k];
+    }
+  delete[] matInt;
   
 }
 
@@ -220,14 +229,12 @@ long long Matrix::lookForScore (long long min, long long max, double requestedPv
   nbocc[length][alpha] = 0.0;
   while (riter != nbocc[length-1].rend()) {
     sum += riter->second;
-    //cout << "Pv(S) " << riter->first << " " << sum << " " << requestedPvalue << endl;
     nbocc[length][riter->first] = sum;
     if (sum >= requestedPvalue) { 
       break;
     }
     riter++;      
   }
-  //cout << "BREAK Pv(S) " << riter->first << " " << sum << " " << requestedPvalue << endl;
   if (sum > requestedPvalue) {
     alpha_E = riter->first;
     riter--;
@@ -246,13 +253,6 @@ long long Matrix::lookForScore (long long min, long long max, double requestedPv
     //cout << "Pv(S) " << riter->first << " " << sum << endl;   
   } 
   
-  // affichage des pvaleurs
-  /*iter = nbocc[length].begin();
-  while (iter != nbocc[length].end()) {
-    cerr << iter->first << "[" << iter->second << "]" << endl;
-    iter++;
-  }*/
-  
 #ifdef MEMORYCOUNT
   // for tests, store the number of memory bloc necessary
   for (int pos = 0; pos <= length; pos++) {
@@ -266,6 +266,13 @@ long long Matrix::lookForScore (long long min, long long max, double requestedPv
   *rppv = nbocc[length][alpha_E];   
   
   delete[] nbocc;
+  delete[] minScoreColumn;
+  delete[] maxScoreColumn;
+  delete[] bestScore;
+  delete[] worstScore;
+  delete[] offsets;
+  delete[] matInt;
+
   return alpha;
   
 }
@@ -318,7 +325,6 @@ map<long long, double> *Matrix::calcDistribWithMapMinMax (long long min, long lo
     }      
     //cerr << "        map size for " << pos << " " << nbocc[pos].size() << endl;
   }
-  
   
   delete[] maxs;
   
@@ -379,21 +385,5 @@ long long Matrix::fastPvalue (Matrix *m, long long alpha) {
   
   return P;
   
-}
-
-void Matrix::freeMatrix(Matrix m, int nrow){
-  // free the memory allocated, not typical way
-  for(int i=0; i<nrow; i++){
-    delete[] m.mat[i];
-    delete[] m.matInt[i];
-  }
-  delete[] m.matInt;
-  delete[] m.mat;
-  delete[] m.offsets;
-  delete[] m.minScoreColumn;
-  delete[] m.maxScoreColumn;
-  delete[] m.sum;
-  delete[] m.bestScore;
-  delete[] m.worstScore;
 }
 
