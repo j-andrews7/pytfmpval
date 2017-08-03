@@ -31,6 +31,7 @@ Copyright (C) 2017  Jared Andrews
 
 from __future__ import absolute_import, division, print_function, unicode_literals
 import pytfmpval.pytfmpval as tfm
+import psutil
 from math import ceil
 
 
@@ -116,18 +117,27 @@ def read_matrix(matrix, bg=[0.25, 0.25, 0.25, 0.25], mat_type="counts", log_type
         print(repr(error))
 
 
-def score2pval(matrix, req_score):
+def score2pval(matrix, req_score, mem_thresh=2.0):
     """
     Determine the p-value for a given score for a specific motif PWM.
 
     Args:
         matrix (pytfmpval Matrix): Matrix in pwm format.
         req_score (float): Requested score for which to determine the p-value.
+        mem_thresh (float): Memory in GBs to remain free to system.
+            Once passed, the closest p-val approximation will be returned
+            instead of the exact p-val. Should only occur rarely with very
+            long and degenerate motifs. Used to help ensure the system
+            won't run out of memory due to these outliers. This is only
+            calculated after each pass, each of which is more time and memory
+            intensive than the last, so changing this value isn't recommended
+            unless accuracy out to the 8th decimal place is really necessary.
 
     Returns:
-        ppv (float): The calculated p-value corresponding to the score.
+        pv (float): The calculated p-value corresponding to the score.
     """
 
+    mem_thresh = mem_thresh * 1000 * 1024 * 1024
     granularity = 0.1
     max_granularity = 1e-10
     decrgr = 10  # Factor to increase granularity by after each iteration.
@@ -143,27 +153,40 @@ def score2pval(matrix, req_score):
 
         matrix.lookForPvalue(score, min_s, max_s, ppv, pv)
 
+        mem = psutil.virtual_memory()
+        if mem.available <= mem_thresh:
+            print("Memory usage threshold passed, returning closest approximation.")
+            return pv.value()
+
         if ppv.value() == pv.value():
-            return ppv.value()
+            return pv.value()
 
         granularity = granularity / decrgr
 
     print("Max granularity exceeded. Returning closest approximation.")
-    return ppv.value()
+    return pv.value()
 
 
-def pval2score(matrix, pval):
+def pval2score(matrix, pval, mem_thresh=2.0):
     """
     Determine the score for a given p-value for a specific motif PWM.
 
     Args:
         matrix (pytfmpval Matrix): Matrix in pwm format.
         pval (float): p-value for which to determine the score.
+        mem_thresh (float): Memory in GBs to remain free to system.
+            Once passed, the closest p-val approximation will be returned
+            instead of the exact p-val. Should only occur rarely with very
+            long and degenerate motifs. Used to help ensure the system
+            won't run out of memory due to these outliers. This is only
+            calculated after each pass, each of which is more time and memory
+            intensive than the last, so changing this value isn't recommended
+            unless accuracy out to the 8th decimal place is really necessary.
 
     Returns:
         score (float): The calculated score corresponding to the p-value.
     """
-
+    mem_thresh = mem_thresh * 1000 * 1024 * 1024
     init_granularity = 0.1
     max_granularity = 1e-10
     decrgr = 10  # Factor to increase granularity by after each iteration.
@@ -184,6 +207,11 @@ def pval2score(matrix, pval):
         max_s = int((score + ceil(matrix.errorMax + 0.5)) * decrgr)
 
         if ppv.value() == pv.value():
+            break
+
+        mem = psutil.virtual_memory()
+        if mem.available <= mem_thresh:
+            print("Memory usage threshold passed, returning closest score approximation.")
             break
 
         granularity = granularity / decrgr

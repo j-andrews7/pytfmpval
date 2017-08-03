@@ -12,3 +12,5 @@
 
 %pointer_class(double, doublep)
 %pointer_class(int, intp)
+
+%nodefaultdtor Matrix;

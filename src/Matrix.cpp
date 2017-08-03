@@ -9,9 +9,8 @@
 
 #include "Matrix.h"
 
-//#define PRINTVERBOSE 
-//#define SHOWCERR
-//#define VERBOSE
+
+#define MEMORYCOUNT
 
 void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
   double minS = 0, maxS = 0;
@@ -48,21 +47,6 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
     }
   }
   
-#ifdef PRINTVERBOSE
-  /*cout << "SCORE RANGE : " << minS << " -> " << maxS << endl;
-  
-  cout << "PRECISION " << this->granularity << endl;
-  
-  cout << "INTEGER MATRIX WITHOUT OFFSET" << endl;
-  
-  for (int k = 0; k < 4; k++ ) {
-    for (int i = 0 ; i < length; i++) {
-      cout << matInt[k][i] << "\t";
-    }
-    cout << endl;
-  }*/
-#endif
-  
   this->errorMax = 0.0;
   for (int i = 1; i < length; i++) {
     double maxE = mat[0][i] * this->granularity - (matInt[0][i]);
@@ -71,9 +55,6 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
     }
     this->errorMax += maxE;
   }
-#ifdef PRINTVERBOSE
-  //cout << "  ERROR MAX : " << this->errorMax << endl;
-#endif
   
   if (sortColumns) {
     // sort the columns : the first column is the one with the greatest value
@@ -111,21 +92,18 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
         mattemp[k][i] = matInt[k][p];
       }
     }
-#ifdef PRINTVERBOSE
-    /*cout << "INTEGER MATRIX WITHOUT OFFSET ORDERED" << endl;
-    for (int k = 0; k < 4; k++)  {
-      for (int i = 0; i < length; i++) {
-        cout << mattemp[k][i] << "\t";
-      }
-      cout << endl;    
-    }*/
-#endif
     
     for (int k = 0; k < 4; k++)  {
       for (int i = 0; i < length; i++) {
         matInt[k][i] = mattemp[k][i];
       }
     }
+
+    for (int k = 0; k < 4; k++) {        
+      delete[] mattemp[k];
+    }
+    delete[] mattemp;
+    delete[] maxs;
   }
   
   // computes offsets
@@ -143,33 +121,18 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
     this->offset += offsets[i];
   }
   
-#ifdef PRINTVERBOSE
-  //cout << "OFFSET : " << this->offset << endl;
-#endif
-  
-#ifdef PRINTVERBOSE
-  /*cout << "INTEGER MATRIX WITH OFFSET" << endl;
-  for (int k = 0; k < 4; k++ )  {
-    for (int i = 0; i < length; i++) {
-      cout << matInt[k][i] << "\t";
-    }
-    cout << endl;    
-  }*/
-#endif
-  
-  
   // look for the minimum score of the matrix for each column
   minScoreColumn = new long long [length];
   maxScoreColumn = new long long [length];
-  sum            = new long long [length];
+  //sum            = new long long [length];
   minScore = 0;
   maxScore = 0;
   for (int i = 0; i < length; i++) {
     minScoreColumn[i] = matInt[0][i];
     maxScoreColumn[i] = matInt[0][i];
-    sum[i] = 0;
+    //sum[i] = 0;
     for (int k = 1; k < 4; k++ )  {
-      sum[i] = sum[i] + matInt[k][i];
+      //sum[i] = sum[i] + matInt[k][i];
       if (minScoreColumn[i] > matInt[k][i]) {
         minScoreColumn[i] = matInt[k][i];
       }
@@ -184,10 +147,6 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
   }
   this->scoreRange = maxScore - minScore + 1;
   
-#ifdef PRINTVERBOSE
-  //cout << "SCORE RANGE : " << minScore << " - " << maxScore << " : " << this->scoreRange << endl;
-#endif
-  
   bestScore = new long long[length];
   worstScore = new long long[length];
   bestScore[length-1] = maxScore;
@@ -196,7 +155,6 @@ void Matrix::computesIntegerMatrix (double granularity, bool sortColumns) {
     bestScore[i]  = bestScore[i+1]  - maxScoreColumn[i+1];
     worstScore[i] = worstScore[i+1] - minScoreColumn[i+1];
   }
-  
   
 }
 
@@ -211,9 +169,7 @@ void Matrix::lookForPvalue (long long requestedScore, long long min, long long m
   map<long long, double> *nbocc = calcDistribWithMapMinMax(min,max); 
   map<long long, double>::iterator iter;
   
-#ifdef SHOWCERR
-  //cerr << "  Looks for Pvalue between " << min << " and " << max << " for score " << requestedScore << endl;
-#endif
+
   // computes p values and stores them in nbocc[length] 
   double sum = nbocc[length][max+1];
   long long s = max + 1;
@@ -241,8 +197,17 @@ void Matrix::lookForPvalue (long long requestedScore, long long min, long long m
   
   *pmax = nbocc[length][s];
   *pmin = iter->second;
-  
+
   delete[] nbocc;
+  delete[] minScoreColumn;
+  delete[] maxScoreColumn;
+  delete[] bestScore;
+  delete[] worstScore;
+  delete[] offsets;
+  for (int k = 0; k < 4; k++) {        
+      delete[] matInt[k];
+    }
+  delete[] matInt;
   
 }
 
@@ -255,9 +220,7 @@ long long Matrix::lookForScore (long long min, long long max, double requestedPv
   
   map<long long, double> *nbocc = calcDistribWithMapMinMax(min,max); 
   map<long long, double>::iterator iter;
-#ifdef SHOWCERR
-  //cerr << "  Looks for score between " << min << " and " << max << endl;
-#endif
+
   // computes p values and stores them in nbocc[length] 
   double sum = 0.0;
   map<long long, double>::reverse_iterator riter = nbocc[length-1].rbegin();
@@ -266,14 +229,12 @@ long long Matrix::lookForScore (long long min, long long max, double requestedPv
   nbocc[length][alpha] = 0.0;
   while (riter != nbocc[length-1].rend()) {
     sum += riter->second;
-    //cout << "Pv(S) " << riter->first << " " << sum << " " << requestedPvalue << endl;
     nbocc[length][riter->first] = sum;
     if (sum >= requestedPvalue) { 
       break;
     }
     riter++;      
   }
-  //cout << "BREAK Pv(S) " << riter->first << " " << sum << " " << requestedPvalue << endl;
   if (sum > requestedPvalue) {
     alpha_E = riter->first;
     riter--;
@@ -290,18 +251,7 @@ long long Matrix::lookForScore (long long min, long long max, double requestedPv
     }
     nbocc[length][alpha_E] = sum;  
     //cout << "Pv(S) " << riter->first << " " << sum << endl;   
-  }
-#ifdef VERBOSE
-  //cerr << riter->first << "      ALPHA found at score " << alpha << " and P-value " << nbocc[length][alpha] << endl;
-  //cerr << riter->first << "      ALPHA-E found at score " << alpha_E << " and P-value " << nbocc[length][alpha_E] << endl;
-#endif    
-  
-  // affichage des pvaleurs
-  /*iter = nbocc[length].begin();
-  while (iter != nbocc[length].end()) {
-    cerr << iter->first << "[" << iter->second << "]" << endl;
-    iter++;
-  }*/
+  } 
   
 #ifdef MEMORYCOUNT
   // for tests, store the number of memory bloc necessary
@@ -316,6 +266,13 @@ long long Matrix::lookForScore (long long min, long long max, double requestedPv
   *rppv = nbocc[length][alpha_E];   
   
   delete[] nbocc;
+  delete[] minScoreColumn;
+  delete[] maxScoreColumn;
+  delete[] bestScore;
+  delete[] worstScore;
+  delete[] offsets;
+  delete[] matInt;
+
   return alpha;
   
 }
@@ -332,10 +289,6 @@ map<long long, double> *Matrix::calcDistribWithMapMinMax (long long min, long lo
   map<long long, double>::iterator iter;
   
   long long *maxs = new long long[length+1]; // @ pos i maximum score reachable with the suffix matrix from i to length-1
-  
-#ifdef VERBOSE    
-  //cerr << "  Calc distrib between " << min << " and " << max << endl;
-#endif
   
   maxs[length] = 0;
   for (int i = length-1; i >= 0; i--) {
@@ -372,7 +325,6 @@ map<long long, double> *Matrix::calcDistribWithMapMinMax (long long min, long lo
     }      
     //cerr << "        map size for " << pos << " " << nbocc[pos].size() << endl;
   }
-  
   
   delete[] maxs;
   
@@ -429,7 +381,9 @@ long long Matrix::fastPvalue (Matrix *m, long long alpha) {
   
   
   delete[] maxm;
+  delete[] q;
   
   return P;
   
 }
+
