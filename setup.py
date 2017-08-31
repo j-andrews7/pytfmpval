@@ -4,7 +4,8 @@
 setup.py file for pytfmpval
 """
 
-from distutils.core import setup, Extension
+# from distutils.core import setup, Extension
+from setuptools import find_packages, setup, Extension
 
 
 pytfmpval_module = Extension('_pytfmpval',
@@ -14,7 +15,7 @@ pytfmpval_module = Extension('_pytfmpval',
                              )
 
 setup(name='pytfmpval',
-      version='0.2.0',
+      version='0.2.1',
       author="Jared Andrews",
       author_email='jared.andrews07@gmail.com',
       url='https://github.com/j-andrews7/pytfmpval',
@@ -22,8 +23,9 @@ setup(name='pytfmpval',
       license='GPL-3.0',
       keywords='bioinformatics tfmpvalue motifs transcription factor genomics science',
       ext_modules=[pytfmpval_module],
-      install_requires=["psutil"],
       py_modules=["pytfmpval"],
+      install_requires=["psutil"],
+      packages=find_packages(exclude=("tests", "docs")),
       classifiers=['Development Status :: 4 - Beta',
                    'Intended Audience :: Science/Research',
                    'Intended Audience :: Developers',
