@@ -28,7 +28,7 @@ pytfmpval is on PyPI, so you can install via ``pip`` easily::
 A Simple Example
 --------------------------
 
-`JASPAR <http://jaspar.genereg.net>`_ is a very highly-touted transcription factor motif database from which motif count matrices can be downloaded for a large variety of organisms and transcription factors. There exist numerous other motif databases as well (TRANSFAC, CIS-BP, MEME, HOMER, WORMBASE, etc), most of which use a relatively similar format for their motifs. Typically, a motif file consists of four rows or columns with each position in a given row or column corresponding to a base within the motif. Sometimes there is an comment line started with ``>``. The row or column order is always ``A, C, G, T``. In this example, the motif consists of four rows corresponding to the 16 positions of the motif with counts for each base at each position.
+`JASPAR <http://jaspar.genereg.net>`_ is a very highly-touted transcription factor motif database from which motif count matrices can be downloaded for a large variety of organisms and transcription factors. There exist numerous other motif databases as well (TRANSFAC, CIS-BP, MEME, HOMER, WORMBASE, etc), most of which use a relatively similar format for their motifs. Typically, a motif file consists of four rows or columns with each position in a given row or column corresponding to a base within the motif. Sometimes there is a comment line started with ``>``. The row or column order is always ``A, C, G, T``. In this example, the motif consists of four rows corresponding to the 16 positions of the motif with counts for each base at each position.
 
 >>> from pytfmpval import tfmp
 >>> m = tfmp.create_matrix("MA0045.pfm")
