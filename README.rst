@@ -17,6 +17,8 @@ This Python package serves as a wrapper for the incredibly useful `TFM-Pvalue C+
 
 See full documentation and use examples `here <http://pytfmpval.readthedocs.io/en/latest/>`_.
 
+**This project has been archived and is provided as-is, with no additional support or development.**
+
 Installation
 ---------------
 
